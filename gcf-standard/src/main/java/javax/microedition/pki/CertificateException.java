@@ -1,4 +1,4 @@
-/**
+/*
  * GCF -- Generic Connection Framework for Java SE
  *        GCF-Standard
  *
