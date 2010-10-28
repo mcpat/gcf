@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.mcpat.gcf</groupId>
+		<artifactId>gcf-parent</artifactId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
+	<artifactId>gcf-bt-bluecove</artifactId>
+	<packaging>jar</packaging>
+	<name>GCF-Bluetooth (Bluecove)</name>
+	<description>Tiny Wrapper for the Bluecove Implementation</description>
+
+	<properties>
+		<bluecove-version>2.1.0</bluecove-version>
+	</properties>
+	
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3+</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<comments>All Bluecove classes and resources included in this module.</comments>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.mcpat.gcf</groupId>
+			<artifactId>gcf-standard</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-bluecove</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>net.sf.bluecove</groupId>
+									<artifactId>bluecove</artifactId>
+									<version>${bluecove-version}</version>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/classes</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+							<excludes>**/META-INF,**/javax/microedition/**,**/com/ibm/**,**/com/sun/**,**/btgoep/**,**/btl2cap/**,**/btspp/**,**/tcpobex/**</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

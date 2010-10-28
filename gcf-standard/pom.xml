@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.mcpat.gcf</groupId>
+		<artifactId>gcf-parent</artifactId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
+	<artifactId>gcf-standard</artifactId>
+	<packaging>jar</packaging>
+	<name>GCF-Standard</name>
+	<description>
+		Standard implementation for the Generic Connection Framework with similarities
+		to the following specifications:
+		o Generic Connection Framework Optional Package for J2SE (JSR 197)
+		o Module Information Device Profile 2.0 (JSR 118)
+	</description>
+	
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3+</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+</project>

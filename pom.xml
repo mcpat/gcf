@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.mcpat.gcf</groupId>
+	<artifactId>gcf-parent</artifactId>
+	<version>0.5-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Generic Connection Framework</name>
+	
+	<prerequisites>
+		<maven>2.0</maven>
+	</prerequisites>
+	<inceptionYear>2007</inceptionYear>
+	<description>Generic Connection Framework for Java SE</description>
+	<url>http://mcpat.github.com/gcf</url>
+	
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3+</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<developers>
+		<developer>
+			<id>marcel</id>
+			<name>Marcel Patzlaff</name>
+			<email>marcel.patzlaff@gmail.com</email>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+	
+	<properties>
+		<gcf-version>0.5-SNAPSHOT</gcf-version>
+		<gcf-license-dir>${basedir}/target/gcf-license</gcf-license-dir>
+		<junit-version>3.8.1</junit-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<modules>
+		<module>gcf-standard</module>
+		<module>gcf-comm-rxtx</module>
+		<module>gcf-bt-bluecove</module>
+	</modules>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.mcpat.gcf</groupId>
+				<artifactId>gcf-standard</artifactId>
+				<version>${gcf-version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${gcf-license-dir}</directory>
+			</resource>
+		</resources>
+	
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${gcf-license-dir}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}</directory>
+									<includes>
+										<include>COPYING*</include>
+										<include>NOTICE</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
