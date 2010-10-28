@@ -105,46 +105,46 @@ public interface HttpConnection extends ContentConnection {
 
     int HTTP_VERSION= 505;
 
-    String getURL();
-
-    String getProtocol();
-
-    String getHost();
-
+    long getDate() throws IOException;
+    
+    long getExpiration() throws IOException;
+    
     String getFile();
-
-    String getRef();
-
-    String getQuery();
+    
+    String getHeaderField(int n) throws IOException;
+    
+    String getHeaderField(String name) throws IOException;
+    
+    int getHeaderFieldInt(String name, int def) throws IOException;
+    
+    long getHeaderFieldDate(String name, long def) throws IOException;
+    
+    String getHeaderFieldKey(int n) throws IOException;
+    
+    String getHost();
+    
+    long getLastModified() throws IOException;
 
     int getPort();
+    
+    String getProtocol();
+
+    String getQuery();
+    
+    String getRef();
+
+    String getURL();
 
     String getRequestMethod();
 
-    void setRequestMethod(String method) throws IOException;
+    int getResponseCode() throws IOException;
+    
+    String getResponseMessage() throws IOException;
 
     String getRequestProperty(String key);
 
+    void setRequestMethod(String method) throws IOException;
+    
     void setRequestProperty(String key, String value) throws IOException;
-
-    int getResponseCode() throws IOException;
-
-    String getResponseMessage() throws IOException;
-
-    long getExpiration() throws IOException;
-
-    long getDate() throws IOException;
-
-    long getLastModified() throws IOException;
-
-    String getHeaderField(String name) throws IOException;
-
-    int getHeaderFieldInt(String name, int def) throws IOException;
-
-    long getHeaderFieldDate(String name, long def) throws IOException;
-
-    String getHeaderField(int n) throws IOException;
-
-    String getHeaderFieldKey(int n) throws IOException;
 
 }

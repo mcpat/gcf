@@ -23,11 +23,12 @@ package javax.microedition.io;
 import javax.microedition.pki.Certificate;
 
 public interface SecurityInfo {
-    Certificate getServerCertificate();
-
-    String getProtocolVersion();
+    String getCipherSuite();
 
     String getProtocolName();
-
-    String getCipherSuite();
+    
+    String getProtocolVersion();
+    
+    Certificate getServerCertificate();
+    
 }

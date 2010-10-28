@@ -33,14 +33,14 @@ public interface Datagram extends DataInput, DataOutput {
 
     int getOffset();
 
-    void setAddress(String addr) throws IOException;
-
-    void setAddress(Datagram reference);
-
-    void setLength(int len);
-
-    void setData(byte[] buffer, int offset, int len);
-
     void reset();
+
+    void setAddress(String addr) throws IOException;
+    
+    void setAddress(Datagram reference);
+    
+    void setData(byte[] buffer, int offset, int len);
+    
+    void setLength(int len);
 
 }

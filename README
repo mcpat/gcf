@@ -1,0 +1,6 @@
+GCF - Generic Connection Framework for JSE
+
+This project aims to provide a stable implementation of the
+Generic Connection Framework (GCF) for the Java Standard Edition.
+It is not considered to be an implementation of any GCF-related JSR.
+Instead those are just used as an orientation.

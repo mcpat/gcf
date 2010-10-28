@@ -66,14 +66,13 @@ public class CertificateException extends java.io.IOException {
                 return "Certificate has unrecognized critical extensions";
 
             case CERTIFICATE_CHAIN_TOO_LONG:
-                return "Server certificate chain exceeds the length allowed " + "by an issuer's policy";
+                return "Server certificate chain exceeds the length allowed by an issuer's policy";
 
             case EXPIRED:
                 return "Certificate is expired";
 
             case UNAUTHORIZED_INTERMEDIATE_CA:
-                return "Intermediate certificate in the chain does not have the "
-                        + "authority to be an intermediate CA";
+                return "Intermediate certificate in the chain does not have the authority to be an intermediate CA";
 
             case MISSING_SIGNATURE:
                 return "Certificate object does not contain a signature";
@@ -91,16 +90,16 @@ public class CertificateException extends java.io.IOException {
                 return "Certificate was signed using an unsupported algorithm";
 
             case INAPPROPRIATE_KEY_USAGE:
-                return "Certificate's public key has been used in a way deemed " + "inappropriate by the issuer";
+                return "Certificate's public key has been used in a way deemed inappropriate by the issuer";
 
             case BROKEN_CHAIN:
-                return "Certificate in a chain was not issued by the next " + "authority in the chain";
+                return "Certificate in a chain was not issued by the next authority in the chain";
 
             case ROOT_CA_EXPIRED:
                 return "Root CA's public key is expired";
 
             case UNSUPPORTED_PUBLIC_KEY_TYPE:
-                return "Certificate has a public key that is not a " + "supported type";
+                return "Certificate has a public key that is not a supported type";
 
             case VERIFICATION_FAILED:
                 return "Certificate failed verification";

@@ -27,9 +27,9 @@ public interface DatagramConnection extends Connection {
 
     int getNominalLength() throws IOException;
 
-    void send(Datagram dgram) throws IOException;
-
     void receive(Datagram dgram) throws IOException;
+
+    void send(Datagram dgram) throws IOException;
 
     Datagram newDatagram(int size) throws IOException;
 
