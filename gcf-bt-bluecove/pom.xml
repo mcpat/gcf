@@ -63,6 +63,18 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<links>
+						<link>http://download.oracle.com/javase/6/docs/api/</link>
+						<link>http://bluecove.org/bluecove/apidocs/</link>
+					</links>
+					<quiet>true</quiet>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
