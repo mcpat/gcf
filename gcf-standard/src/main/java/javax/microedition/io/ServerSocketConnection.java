@@ -23,7 +23,13 @@ package javax.microedition.io;
 import java.io.IOException;
 
 public interface ServerSocketConnection extends StreamConnectionNotifier {
+    /**
+     * @throws IOException
+     */
     String getLocalAddress() throws IOException;
 
+    /**
+     * @throws IOException
+     */
     int getLocalPort() throws IOException;
 }

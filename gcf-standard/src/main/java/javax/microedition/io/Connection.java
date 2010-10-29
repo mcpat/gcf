@@ -23,5 +23,8 @@ package javax.microedition.io;
 import java.io.IOException;
 
 public interface Connection {
+    /**
+     * @throws IOException
+     */
     void close() throws IOException;
 }

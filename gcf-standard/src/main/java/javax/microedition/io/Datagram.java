@@ -35,12 +35,24 @@ public interface Datagram extends DataInput, DataOutput {
 
     void reset();
 
+    /**
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
     void setAddress(String addr) throws IOException;
     
+    /**
+     * @throws IllegalArgumentException
+     */
     void setAddress(Datagram reference);
     
+    /**
+     * @throws IllegalArgumentException
+     */
     void setData(byte[] buffer, int offset, int len);
     
+    /**
+     * @throws IllegalArgumentException
+     */
     void setLength(int len);
-
 }

@@ -23,5 +23,8 @@ package javax.microedition.io;
 import java.io.IOException;
 
 public interface StreamConnectionNotifier extends Connection {
+    /**
+     * @throws IOException
+     */
     StreamConnection acceptAndOpen() throws IOException;
 }

@@ -23,8 +23,6 @@ package javax.microedition.pki;
 public class CertificateException extends java.io.IOException {
     private static final long serialVersionUID= 1L;
     
-    private byte reason;
-    private Certificate cert;
     public static final byte BAD_EXTENSIONS= 1;
     public static final byte CERTIFICATE_CHAIN_TOO_LONG= 2;
     public static final byte EXPIRED= 3;
@@ -40,24 +38,27 @@ public class CertificateException extends java.io.IOException {
     public static final byte UNSUPPORTED_PUBLIC_KEY_TYPE= 13;
     public static final byte VERIFICATION_FAILED= 14;
 
+    private byte _reason;
+    private Certificate _cert;
+    
     public CertificateException(Certificate certificate, byte status) {
         super(getMessageForReason(status));
-        cert= certificate;
-        reason= status;
+        _cert= certificate;
+        _reason= status;
     }
 
     public CertificateException(String message, Certificate certificate, byte status) {
         super(message);
-        cert= certificate;
-        reason= status;
+        _cert= certificate;
+        _reason= status;
     }
 
     public Certificate getCertificate() {
-        return cert;
+        return _cert;
     }
 
     public byte getReason() {
-        return reason;
+        return _reason;
     }
 
     static String getMessageForReason(int reason) {

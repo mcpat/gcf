@@ -105,24 +105,48 @@ public interface HttpConnection extends ContentConnection {
 
     int HTTP_VERSION= 505;
 
+    /**
+     * @throws IOException
+     */
     long getDate() throws IOException;
     
+    /**
+     * @throws IOException
+     */
     long getExpiration() throws IOException;
     
     String getFile();
     
+    /**
+     * @throws IOException
+     */
     String getHeaderField(int n) throws IOException;
     
+    /**
+     * @throws IOException
+     */
     String getHeaderField(String name) throws IOException;
     
-    int getHeaderFieldInt(String name, int def) throws IOException;
-    
+    /**
+     * @throws IOException
+     */
     long getHeaderFieldDate(String name, long def) throws IOException;
     
+    /**
+     * @throws IOException
+     */
+    int getHeaderFieldInt(String name, int def) throws IOException;
+    
+    /**
+     * @throws IOException
+     */
     String getHeaderFieldKey(int n) throws IOException;
     
     String getHost();
     
+    /**
+     * @throws IOException
+     */
     long getLastModified() throws IOException;
 
     int getPort();
@@ -137,14 +161,26 @@ public interface HttpConnection extends ContentConnection {
 
     String getRequestMethod();
 
+    /**
+     * @throws IOException
+     */
     int getResponseCode() throws IOException;
     
+    /**
+     * @throws IOException
+     */
     String getResponseMessage() throws IOException;
 
     String getRequestProperty(String key);
 
+    /**
+     * @throws IOException
+     */
     void setRequestMethod(String method) throws IOException;
     
+    /**
+     * @throws IOException
+     */
     void setRequestProperty(String key, String value) throws IOException;
 
 }
