@@ -22,26 +22,41 @@ package javax.microedition.io.file;
 
 import java.util.Enumeration;
 
+import com.github.gcf.io.jse.FileSystemRegistryImpl;
+
 public class FileSystemRegistry {
+    
+    private static final FileSystemRegistryImpl IMPL= new FileSystemRegistryImpl();
+    
     /**
      * @throws SecurityException
      * @throws NullPointerException
      */
     public static boolean addFileSystemListener(FileSystemListener listener) {
-        return false;
+        if(listener == null) {
+            // IllegalArgumentException is better here but javadoc requests this one...
+            throw new NullPointerException("null listener");
+        }
+        
+        return IMPL.addFileSystemListener(listener);
     }
     
     /**
      * @throws SecurityException
      */
     public static Enumeration listRoots() {
-        return null;
+        return IMPL.listRoots();
     }
     
     /**
      * @throws NullPointerException
      */
     public static boolean removeFileSystemListener(FileSystemListener listener) {
-        return false;
+        if(listener == null) {
+            // IllegalArgumentException is better here but javadoc requests this one...
+            throw new NullPointerException("null listener");
+        }
+        
+        return IMPL.removeFileSystemListener(listener);
     }
 }

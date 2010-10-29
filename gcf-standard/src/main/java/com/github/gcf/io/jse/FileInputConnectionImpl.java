@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.NoSuchElementException;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.file.ConnectionClosedException;
@@ -331,29 +330,5 @@ final class FileInputConnectionImpl extends AbstractConnection implements FileCo
         if((_mode & Connector.READ) == 0) {
             throw new IllegalModeException("not in read mode");
         }
-    }
-}
-
-class FileEnumerator implements Enumeration {
-    private final File[] _files;
-    private int _index;
-    
-    FileEnumerator(File[] files) {
-        _files= files;
-        _index= 0;
-    }
-
-    public boolean hasMoreElements() {
-        return _files != null && _index < _files.length;
-    }
-
-    public Object nextElement() {
-        if(_files == null || _index >= _files.length) {
-            throw new NoSuchElementException("file enumerator");
-        }
-        
-        File f= _files[_index++];
-        // TODO: check if directory names have a trailing slash
-        return f.getName();
     }
 }
