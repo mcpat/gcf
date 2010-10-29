@@ -14,6 +14,7 @@
 		to the following specifications:
 		o Generic Connection Framework Optional Package for J2SE (JSR 197)
 		o Module Information Device Profile 2.0 (JSR 118)
+		o PDA Optional Packages for the J2ME Platform (JSR 75)
 	</description>
 	
 	<licenses>
