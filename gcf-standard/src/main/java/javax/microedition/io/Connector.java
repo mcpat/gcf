@@ -30,15 +30,9 @@ import com.github.gcf.io.FactoryRegistry;
 
 
 public class Connector {
-    public static final int READ;
-    public static final int WRITE;
-    public static final int READ_WRITE;
-
-    static {
-        READ= 0x01;
-        WRITE= 0x02;
-        READ_WRITE= READ | WRITE;
-    }
+    public static final int READ= 0x01;
+    public static final int WRITE= 0x02;
+    public static final int READ_WRITE= READ | WRITE;
     
     public static Connection open(String name) throws IOException {
         return open(name, READ_WRITE);

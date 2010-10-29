@@ -21,6 +21,9 @@
 package com.github.gcf.io;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Vector;
 
 import javax.microedition.io.Connection;
 
@@ -28,15 +31,120 @@ import javax.microedition.io.Connection;
  * @author Marcel Patzlaff
  */
 public abstract class AbstractConnection implements Connection {
-    private boolean _closed= false;
+    protected final class RegisteredInputStream extends InputStream {
+        private final InputStream _target;
+        
+        public RegisteredInputStream(InputStream target) {
+            _target= target;
+            resourceAcquired(this);
+        }
 
-    public void close() throws IOException {
-        _closed= true;
+        public int available() throws IOException {
+            return _target.available();
+        }
+
+        public void close() throws IOException {
+            try {
+                _target.close();
+            } finally {
+                resourceReleased(this);
+            }
+        }
+
+        public void mark(int readlimit) {
+            _target.mark(readlimit);
+        }
+
+        public boolean markSupported() {
+            return _target.markSupported();
+        }
+
+        public int read() throws IOException {
+            return _target.read();
+        }
+
+        public int read(byte[] b, int off, int len) throws IOException {
+            return _target.read(b, off, len);
+        }
+
+        public int read(byte[] b) throws IOException {
+            return _target.read(b);
+        }
+
+        public void reset() throws IOException {
+            _target.reset();
+        }
+
+        public long skip(long n) throws IOException {
+            return _target.skip(n);
+        }
+    }
+    
+    protected final class RegisteredOutputStream extends OutputStream {
+        private final OutputStream _target;
+        
+        public RegisteredOutputStream(OutputStream target) {
+            _target= target;
+            resourceAcquired(this);
+        }
+
+        public void close() throws IOException {
+            try {
+                _target.close();
+            } finally {
+                resourceReleased(this);
+            }
+        }
+
+        public void flush() throws IOException {
+            _target.flush();
+        }
+
+        public void write(byte[] b, int off, int len) throws IOException {
+            _target.write(b, off, len);
+        }
+
+        public void write(byte[] b) throws IOException {
+            _target.write(b);
+        }
+
+        public void write(int b) throws IOException {
+            _target.write(b);
+        }
+    }
+    
+    protected boolean closed= false;
+    private final Vector _registeredResources= new Vector();
+    
+    public final void close() throws IOException {
+        if(closed) {
+            return;
+        }
+        
+        closed= true;
+        
+        if(_registeredResources.size() <= 0) {
+            closeMainResource();
+        }
     }
     
     protected void ensureOpen() throws IOException {
-        if(_closed) {
+        if(closed) {
             throw new IOException("Connection is closed");
         }
     }
+    
+    protected final void resourceAcquired(Object resource) {
+        _registeredResources.addElement(resource);
+    }
+    
+    protected final void resourceReleased(Object resource) throws IOException {
+        _registeredResources.removeElement(resource);
+        
+        if(closed && _registeredResources.size() <= 0) {
+            closeMainResource();
+        }
+    }
+    
+    protected void closeMainResource() throws IOException {}
 }

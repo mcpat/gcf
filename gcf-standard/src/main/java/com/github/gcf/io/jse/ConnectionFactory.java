@@ -36,8 +36,6 @@ import com.github.gcf.io.PrimitiveURI;
  * @author Marcel Patzlaff
  */
 public class ConnectionFactory implements IConnectionFactory {
-    public static final String DATAGRAM_SCHEME= "datagram://";
-    
     public boolean conflictsWith(String protocol, IConnectionFactory factory) {
         return false;
     }
@@ -74,7 +72,7 @@ public class ConnectionFactory implements IConnectionFactory {
         // create FILE connection
         if(protocol.equals("file")) {
             File file= new File(uri.path);
-            return new FileInputConnectionImpl(file);
+            return new FileInputConnectionImpl(mode, file);
         }
         
         if (uri.path != null || uri.query != null || uri.fragment != null) {

@@ -37,7 +37,7 @@ import com.github.gcf.io.AbstractConnection;
 /**
  * @author Marcel Patzlaff
  */
-public class RXTXCommConnectionImpl extends AbstractConnection implements CommConnection {
+final class RXTXCommConnectionImpl extends AbstractConnection implements CommConnection {
     private final SerialPort _port;
     
     protected RXTXCommConnectionImpl(SerialPort port) {
@@ -70,7 +70,7 @@ public class RXTXCommConnectionImpl extends AbstractConnection implements CommCo
 
     public InputStream openInputStream() throws IOException {
         ensureOpen();
-        return _port.getInputStream();
+        return new RegisteredInputStream(_port.getInputStream());
     }
 
     public DataOutputStream openDataOutputStream() throws IOException {
@@ -80,11 +80,10 @@ public class RXTXCommConnectionImpl extends AbstractConnection implements CommCo
 
     public OutputStream openOutputStream() throws IOException {
         ensureOpen();
-        return _port.getOutputStream();
+        return new RegisteredOutputStream(_port.getOutputStream());
     }
 
-    public void close() throws IOException {
-        super.close();
+    protected void closeMainResource() throws IOException {
         _port.close();
     }
 }

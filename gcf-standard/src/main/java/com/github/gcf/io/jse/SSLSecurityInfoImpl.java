@@ -32,8 +32,8 @@ import javax.net.ssl.SSLSocket;
 /**
  * @author Marcel Patzlaff
  */
-final class SSLSecurityInfo implements SecurityInfo {
-    static SSLSecurityInfo create(SSLSocket socket) throws IOException {
+final class SSLSecurityInfoImpl implements SecurityInfo {
+    static SSLSecurityInfoImpl create(SSLSocket socket) throws IOException {
         SSLSession session= socket.getSession();
         
         java.security.cert.Certificate[] certs= session.getPeerCertificates();
@@ -42,7 +42,7 @@ final class SSLSecurityInfo implements SecurityInfo {
             ci= new CertificateImpl((X509Certificate) certs[0]);
         }
         
-        return new SSLSecurityInfo(
+        return new SSLSecurityInfoImpl(
             session.getCipherSuite(),
             session.getProtocol(),
             null,
@@ -50,7 +50,7 @@ final class SSLSecurityInfo implements SecurityInfo {
         );
     }
     
-    static SSLSecurityInfo create(HttpsURLConnection connection) throws IOException {
+    static SSLSecurityInfoImpl create(HttpsURLConnection connection) throws IOException {
         java.security.cert.Certificate[] certs= connection.getServerCertificates();
         
         CertificateImpl ci= null;
@@ -58,7 +58,7 @@ final class SSLSecurityInfo implements SecurityInfo {
             ci= new CertificateImpl((X509Certificate) certs[0]);
         }
         
-        return new SSLSecurityInfo(
+        return new SSLSecurityInfoImpl(
             connection.getCipherSuite(),
             null,
             null,
@@ -71,7 +71,7 @@ final class SSLSecurityInfo implements SecurityInfo {
     private final String _protocolVersion;
     private final Certificate _serverCert;
     
-    private SSLSecurityInfo(String cs, String pn, String pv, Certificate sc) {
+    private SSLSecurityInfoImpl(String cs, String pn, String pv, Certificate sc) {
         _cypherSuite= cs;
         _protocolName= pn;
         _protocolVersion= pv;

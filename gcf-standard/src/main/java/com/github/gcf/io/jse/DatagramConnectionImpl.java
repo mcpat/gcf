@@ -34,7 +34,7 @@ import com.github.gcf.io.PrimitiveURI;
  * @author Marcel Patzlaff
  */
 class DatagramConnectionImpl extends AbstractConnection implements DatagramConnection {
-    protected DatagramSocket socket;
+    protected final DatagramSocket socket;
     private final PrimitiveURI _defaultAddress;
     
     private final int _maximumSize;
@@ -70,14 +70,14 @@ class DatagramConnectionImpl extends AbstractConnection implements DatagramConne
             throw new IOException("requested size exceeds maximum");
         }
         
-        Datagram datagram= new DatagramObject(buf, size);
+        Datagram datagram= new DatagramImpl(buf, size);
         datagram.setAddress(addr);
         return datagram;
     }
 
     public final Datagram newDatagram(byte[] buf, int size) throws IOException {
         ensureOpen();
-        DatagramObject datagram= new DatagramObject(buf, size);
+        DatagramImpl datagram= new DatagramImpl(buf, size);
         
         if(_defaultAddress != null) {
             datagram.setAddress(_defaultAddress);
@@ -99,12 +99,12 @@ class DatagramConnectionImpl extends AbstractConnection implements DatagramConne
             throw new IOException("Connection is in client mode");
         }
         
-        if(!(dgram instanceof DatagramObject)) {
+        if(!(dgram instanceof DatagramImpl)) {
             throw new IllegalArgumentException("Invalid Datagram");
         }
         
         ensureOpen();
-        DatagramObject d= (DatagramObject) dgram;
+        DatagramImpl d= (DatagramImpl) dgram;
         d.doReceive(socket);
     }
 
@@ -113,30 +113,16 @@ class DatagramConnectionImpl extends AbstractConnection implements DatagramConne
             throw new IOException("Connection is in server mode");
         }
         
-        if(!(dgram instanceof DatagramObject)) {
+        if(!(dgram instanceof DatagramImpl)) {
             throw new IllegalArgumentException("Invalid Datagram");
         }
         
         ensureOpen();
-        DatagramObject d= (DatagramObject) dgram;
+        DatagramImpl d= (DatagramImpl) dgram;
         d.doSend(socket);
     }
-
-    public final void close() throws IOException {
-        super.close();
-        if(socket != null) {
-            try {
-                socket.close();
-            } finally {
-                socket= null;
-            }
-        }
-    }
     
-    protected final void ensureOpen() throws IOException {
-        super.ensureOpen();
-        
-        if(socket == null || socket.isClosed())
-            throw new IOException("Connection is closed");
+    protected void closeMainResource() throws IOException {
+        socket.close();
     }
 }

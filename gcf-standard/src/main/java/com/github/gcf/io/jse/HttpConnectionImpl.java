@@ -159,8 +159,7 @@ class HttpConnectionImpl extends AbstractConnection implements HttpConnection {
         return connection.getInputStream();
     }
 
-    public void close() throws IOException {
-        super.close();
+    protected void closeMainResource() throws IOException {
         connection.disconnect();
     }
 

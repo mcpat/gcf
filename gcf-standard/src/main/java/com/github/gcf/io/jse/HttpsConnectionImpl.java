@@ -39,7 +39,7 @@ final class HttpsConnectionImpl extends HttpConnectionImpl implements HttpsConne
     
     public SecurityInfo getSecurityInfo() throws IOException {
         if(_securityInfo == null) {
-            _securityInfo= SSLSecurityInfo.create((HttpsURLConnection) connection);
+            _securityInfo= SSLSecurityInfoImpl.create((HttpsURLConnection) connection);
         }
         
         return _securityInfo;

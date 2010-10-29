@@ -58,8 +58,7 @@ class ServerSocketConnectionImpl extends AbstractConnection implements ServerSoc
         return new SocketConnectionImpl(serverSocket.accept());
     }
 
-    public void close() throws IOException {
-        super.close();
+    protected void closeMainResource() throws IOException {
         serverSocket.close();
     }
 }

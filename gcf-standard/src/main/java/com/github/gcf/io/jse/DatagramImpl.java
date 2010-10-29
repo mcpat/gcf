@@ -39,7 +39,7 @@ import com.github.gcf.io.PrimitiveURI;
  * 
  * @author Marcel Patzlaff
  */
-final class DatagramObject implements Datagram {
+final class DatagramImpl implements Datagram {
     public static final String DATAGRAM_SCHEME= "datagram://";
     
     public static PrimitiveURI validateDatagramAddress(String addr) throws IllegalArgumentException {
@@ -120,7 +120,7 @@ final class DatagramObject implements Datagram {
     protected int offset;
     protected int readWritePosition;
     
-    DatagramObject(byte[] buf, int len) {
+    DatagramImpl(byte[] buf, int len) {
         setData(buf, 0, len);
         _internalPacket= new DatagramPacket(buf, 0, len);
     }

@@ -40,7 +40,7 @@ final class SSLConnectionImpl extends SocketConnectionImpl implements SecureConn
 
     public SecurityInfo getSecurityInfo() throws IOException {
         if(_securityInfo == null) {
-            _securityInfo= SSLSecurityInfo.create((SSLSocket)socket);
+            _securityInfo= SSLSecurityInfoImpl.create((SSLSocket)socket);
         }
         
         return _securityInfo;

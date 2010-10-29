@@ -131,11 +131,10 @@ class SocketConnectionImpl extends AbstractConnection implements SocketConnectio
 
     public final InputStream openInputStream() throws IOException {
         ensureOpen();
-        return socket.getInputStream();
+        return new RegisteredInputStream(socket.getInputStream());
     }
 
-    public void close() throws IOException {
-        super.close();
+    protected void closeMainResource() throws IOException {
         socket.close();
     }
 
@@ -146,6 +145,6 @@ class SocketConnectionImpl extends AbstractConnection implements SocketConnectio
 
     public final OutputStream openOutputStream() throws IOException {
         ensureOpen();
-        return socket.getOutputStream();
+        return new RegisteredOutputStream(socket.getOutputStream());
     }
 }
