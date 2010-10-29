@@ -72,7 +72,7 @@ public class ConnectionFactory implements IConnectionFactory {
         // create FILE connection
         if(protocol.equals("file")) {
             File file= new File(uri.path);
-            return new FileInputConnectionImpl(mode, file);
+            return new FileConnectionImpl(mode, file);
         }
         
         if (uri.path != null || uri.query != null || uri.fragment != null) {

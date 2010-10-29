@@ -26,11 +26,13 @@ import java.util.NoSuchElementException;
 
 class FileEnumerator implements Enumeration {
     private final File[] _files;
+    private final boolean _root;
     private int _index;
     
-    FileEnumerator(File[] files) {
+    FileEnumerator(File[] files, boolean root) {
         _files= files;
         _index= 0;
+        _root= root;
     }
 
     public boolean hasMoreElements() {
@@ -44,6 +46,11 @@ class FileEnumerator implements Enumeration {
         
         File f= _files[_index++];
         // TODO: check if directory names have a trailing slash
+        
+        if(_root) {
+            return f.getAbsolutePath();
+        }
+        
         return f.getName();
     }
 }

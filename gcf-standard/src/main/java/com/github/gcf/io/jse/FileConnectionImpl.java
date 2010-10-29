@@ -42,11 +42,11 @@ import com.github.gcf.io.AbstractConnection;
 /**
  * @author Marcel Patzlaff
  */
-final class FileInputConnectionImpl extends AbstractConnection implements FileConnection {
+final class FileConnectionImpl extends AbstractConnection implements FileConnection {
     private File _file;
     private final int _mode;
 
-    public FileInputConnectionImpl(int mode, File file) {
+    public FileConnectionImpl(int mode, File file) {
         _mode= mode;
         _file= file;
     }
@@ -169,7 +169,7 @@ final class FileInputConnectionImpl extends AbstractConnection implements FileCo
             }
         });
         
-        return new FileEnumerator(files);
+        return new FileEnumerator(files, false);
     }
 
     public Enumeration list(final String filter, final boolean includeHidden) throws IOException {

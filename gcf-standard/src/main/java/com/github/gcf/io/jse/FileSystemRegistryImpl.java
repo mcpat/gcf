@@ -78,7 +78,7 @@ public class FileSystemRegistryImpl {
     }
     
     public synchronized Enumeration listRoots() {
-        return new FileEnumerator(File.listRoots());
+        return new FileEnumerator(File.listRoots(), true);
     }
     
     public synchronized boolean removeFileSystemListener(FileSystemListener listener) {
