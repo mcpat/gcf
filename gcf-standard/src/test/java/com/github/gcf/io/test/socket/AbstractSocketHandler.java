@@ -21,11 +21,12 @@
 package com.github.gcf.io.test.socket;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.OutputStreamWriter;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,7 @@ public abstract class AbstractSocketHandler<C> {
     protected BlockingQueue<String> messages;
     
     private Thread _workThread;
-    private PrintStream _writer;
+    private BufferedWriter _writer;
     
     protected AbstractSocketHandler(String host, int port) throws IOException {
         this.connection= createConnection(host, port);
@@ -53,7 +54,8 @@ public abstract class AbstractSocketHandler<C> {
     }
     
     public final void send(String message) throws IOException {
-        _writer.println(message);
+        _writer.append(message);
+        _writer.newLine();
         _writer.flush();
     }
     
@@ -79,7 +81,7 @@ public abstract class AbstractSocketHandler<C> {
     
     private void start() throws IOException {
         messages= new ArrayBlockingQueue<String>(5);
-        _writer= new PrintStream(getOutputStream());
+        _writer= new BufferedWriter(new OutputStreamWriter(getOutputStream()));
         
         reader= new BufferedReader(new InputStreamReader(getInputStream()));
         _workThread= new Thread() {
