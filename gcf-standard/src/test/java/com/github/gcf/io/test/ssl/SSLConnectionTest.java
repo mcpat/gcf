@@ -18,33 +18,39 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.gcf.io.test.socket;
+package com.github.gcf.io.test.ssl;
+
+import javax.microedition.io.Connector;
+import javax.microedition.io.SecureConnection;
+import javax.microedition.io.SecurityInfo;
 
 import junit.framework.TestCase;
 
 /**
  * @author Marcel Patzlaff
  */
-public class SocketTest extends TestCase {
+public class SSLConnectionTest extends TestCase {
     public void testSocket() throws Exception {
-        SocketServer server= new SocketServer(0);
-        server.openAndStartAccepting();
+        String url= "ssl://www.fortify.net:443";
         
-        int serverPort= server.getPort();
+        SecureConnection sc= (SecureConnection) Connector.open(url);
+        SecurityInfo si= sc.getSecurityInfo();
+        assertNotNull("security info not intialised", si);
+        assertNotNull("cypher suite not present", si.getCipherSuite());
+        assertNotNull("protocol name not parsed", si.getProtocolName());
+        assertNotNull("protocol version not parsed", si.getProtocolVersion());
         
-        SocketHandler sender= new SocketHandler("localhost", serverPort);
-        SocketHandler echo= server.getNextHandler();
-        assertNotNull("Accepting failed", echo);
+        assertNotNull("no remote address", sc.getAddress());
+        assertNotNull("no local address", sc.getLocalAddress());
         
-        server.stopAcceptingAndClose();
+        if(sc.getLocalPort() <= 0) {
+            fail("invalid local port");
+        }
         
-        sender.send("Hallo Welt");
-        assertEquals("Request mismatch", "Hallo Welt", echo.getNextMessage());
-
+        if(sc.getPort() <= 0) {
+            fail("invalid remote port");
+        }
         
-        echo.send("Hallo Echo!");
-        assertEquals("Response mismatch", "Hallo Echo!", sender.getNextMessage());
-        sender.stopAndClose();
-        echo.stopAndClose();
+        sc.close();
     }
 }

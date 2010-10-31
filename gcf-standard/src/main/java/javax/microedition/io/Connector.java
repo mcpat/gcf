@@ -79,16 +79,14 @@ public class Connector {
     public static DataInputStream openDataInputStream(String name) throws IOException {
         Connection c= Connector.open(name, Connector.READ);
         
-        if(!(c instanceof InputConnection)) {
-            try {c.close();} catch (Exception e) {}
-            throw new IllegalArgumentException(name + " does not refer to an InputConnection");
-        }
-        
         try {
+            if(!(c instanceof InputConnection)) {
+                throw new IllegalArgumentException(name + " does not refer to an InputConnection");
+            }
+        
             return ((InputConnection) c).openDataInputStream();
-        } catch(IOException ioe) {
+        } finally {
             c.close();
-            throw ioe;
         }
     }
 
@@ -101,16 +99,14 @@ public class Connector {
     public static DataOutputStream openDataOutputStream(String name) throws IOException {
         Connection c= Connector.open(name, Connector.WRITE);
 
-        if(!(c instanceof OutputConnection)) {
-            try {c.close();} catch (Exception e) {}
-            throw new IllegalArgumentException(name + " does not refer to an OutputConnection");
-        }
-        
         try {
+            if(!(c instanceof OutputConnection)) {
+                throw new IllegalArgumentException(name + " does not refer to an OutputConnection");
+            }
+        
             return ((OutputConnection) c).openDataOutputStream();
-        } catch(IOException ioe) {
+        } finally {
             c.close();
-            throw ioe;
         }
     }
 

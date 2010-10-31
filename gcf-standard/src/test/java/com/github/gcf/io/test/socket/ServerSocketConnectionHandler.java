@@ -21,7 +21,9 @@
 package com.github.gcf.io.test.socket;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.ServerSocketConnection;
@@ -30,33 +32,26 @@ import javax.microedition.io.SocketConnection;
 /**
  * @author Marcel Patzlaff
  */
-public class SocketServer {
-    private final int _port;
-    
-    protected final Vector socketHandlers;
-    
+class ServerSocketConnectionHandler {
     protected ServerSocketConnection con;
     private Thread _workThread;
     
-    public SocketServer(int port) {
-        _port= port;
-        socketHandlers= new Vector();
+    protected final BlockingQueue<SocketConnectionHandler> socketHandlers= new ArrayBlockingQueue<SocketConnectionHandler>(5);
+    
+    protected ServerSocketConnectionHandler() throws IOException {
+        startAccepting();
     }
     
-    public void openAndStartAccepting() throws IOException {
-        con= (ServerSocketConnection) Connector.open("socket://:" + _port);
+    private void startAccepting() throws IOException {
+        con= (ServerSocketConnection) Connector.open("socket://:0");
         
         _workThread= new Thread() {
             public void run() {
                 try {
                     while(true) {
                         SocketConnection sc= (SocketConnection) con.acceptAndOpen();
-                        SocketHandler sh= new SocketHandler(sc);
-                        
-                        synchronized (socketHandlers) {
-                            socketHandlers.add(sh);
-                            socketHandlers.notify();
-                        }
+                        SocketConnectionHandler sh= new SocketConnectionHandler(sc);
+                        socketHandlers.offer(sh);
                     }
                 } catch (Exception e) {
                     System.out.println("server socket was closed");
@@ -71,23 +66,8 @@ public class SocketServer {
         return con.getLocalPort();
     }
     
-    public SocketHandler getNextHandler() {
-        synchronized(socketHandlers) {
-            if(socketHandlers.isEmpty()) {
-                try {
-                    socketHandlers.wait(1000);
-                } catch (InterruptedException e) {
-                }
-            }
-            
-            if(socketHandlers.isEmpty()) {
-                return null;
-            }
-            
-            SocketHandler sh= (SocketHandler) socketHandlers.elementAt(0);
-            socketHandlers.removeElementAt(0);
-            return sh;
-        }
+    public SocketConnectionHandler getNextHandler() throws InterruptedException {
+        return socketHandlers.poll(1000L, TimeUnit.MILLISECONDS);
     }
     
     public void stopAcceptingAndClose() throws IOException {

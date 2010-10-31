@@ -20,37 +20,40 @@
 
 package com.github.gcf.io.test.ssl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.microedition.io.Connector;
 import javax.microedition.io.SecureConnection;
-import javax.microedition.io.SecurityInfo;
 
-import junit.framework.TestCase;
+import com.github.gcf.io.test.socket.AbstractSocketHandler;
 
 /**
  * @author Marcel Patzlaff
  */
-public class SSLSocketTest extends TestCase {
-    public void testSocket() throws Exception {
-        String url= "ssl://www.fortify.net:443";
-        
-        SecureConnection sc= (SecureConnection) Connector.open(url);
-        SecurityInfo si= sc.getSecurityInfo();
-        assertNotNull("security info not intialised", si);
-        assertNotNull("cypher suite not present", si.getCipherSuite());
-        assertNotNull("protocol name not parsed", si.getProtocolName());
-        assertNotNull("protocol version not parsed", si.getProtocolVersion());
-        
-        assertNotNull("no remote address", sc.getAddress());
-        assertNotNull("no local address", sc.getLocalAddress());
-        
-        if(sc.getLocalPort() <= 0) {
-            fail("invalid local port");
-        }
-        
-        if(sc.getPort() <= 0) {
-            fail("invalid remote port");
-        }
-        
-        sc.close();
+class SSLConnectionHandler extends AbstractSocketHandler<SecureConnection> {
+    SSLConnectionHandler(String host, int port) throws IOException {
+        super(host, port);
+    }
+
+    SSLConnectionHandler(SecureConnection connection) throws IOException {
+        super(connection);
+    }
+
+    protected void closeConnection() throws IOException {
+        connection.close();
+    }
+
+    protected SecureConnection createConnection(String host, int port) throws IOException {
+        return (SecureConnection) Connector.open("ssl://" + host + ":" + port);
+    }
+
+    protected InputStream getInputStream() throws IOException {
+        return connection.openInputStream();
+    }
+
+    protected OutputStream getOutputStream() throws IOException {
+        return connection.openOutputStream();
     }
 }

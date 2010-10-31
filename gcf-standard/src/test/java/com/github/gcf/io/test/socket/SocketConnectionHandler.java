@@ -23,35 +23,35 @@ package com.github.gcf.io.test.socket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 
-import javax.net.SocketFactory;
+import javax.microedition.io.Connector;
+import javax.microedition.io.SocketConnection;
 
 /**
  * @author Marcel Patzlaff
  */
-class SocketHandler extends AbstractSocketHandler<Socket> {
-    SocketHandler(String host, int port) throws IOException {
+class SocketConnectionHandler extends AbstractSocketHandler<SocketConnection> {
+    SocketConnectionHandler(String host, int port) throws IOException {
         super(host, port);
     }
-
-    SocketHandler(Socket connection) throws IOException {
-        super(connection);
+    
+    SocketConnectionHandler(SocketConnection c) throws IOException {
+        super(c);
     }
 
     protected void closeConnection() throws IOException {
         connection.close();
     }
 
-    protected Socket createConnection(String host, int port) throws IOException {
-        return SocketFactory.getDefault().createSocket(host, port);
+    protected SocketConnection createConnection(String host, int port) throws IOException {
+        return (SocketConnection) Connector.open("socket://" + host + ":" + port);
     }
 
     protected InputStream getInputStream() throws IOException {
-        return connection.getInputStream();
+        return connection.openInputStream();
     }
 
     protected OutputStream getOutputStream() throws IOException {
-        return connection.getOutputStream();
+        return connection.openOutputStream();
     }
 }

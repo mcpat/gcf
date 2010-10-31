@@ -36,7 +36,7 @@ public class PrimitiveURI {
     public final String fragment;
     public final String rawString;
     
-    public PrimitiveURI(String uri) {
+    public PrimitiveURI(String uri) throws IllegalArgumentException {
         rawString= uri;
         
         int pos= 0;

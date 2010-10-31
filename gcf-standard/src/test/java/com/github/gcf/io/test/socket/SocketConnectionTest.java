@@ -20,38 +20,30 @@
 
 package com.github.gcf.io.test.socket;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-
-import javax.net.SocketFactory;
+import junit.framework.TestCase;
 
 /**
  * @author Marcel Patzlaff
  */
-class SocketHandler extends AbstractSocketHandler<Socket> {
-    SocketHandler(String host, int port) throws IOException {
-        super(host, port);
-    }
+public class SocketConnectionTest extends TestCase {
+    public void testSocket() throws Exception {
+        ServerSocketConnectionHandler server= new ServerSocketConnectionHandler();
+        
+        int serverPort= server.getPort();
+        
+        SocketConnectionHandler sender= new SocketConnectionHandler("localhost", serverPort);
+        SocketConnectionHandler echo= server.getNextHandler();
+        assertNotNull("Accepting failed", echo);
+        
+        server.stopAcceptingAndClose();
+        
+        sender.send("Hallo Welt");
+        assertEquals("Request mismatch", "Hallo Welt", echo.getNextMessage());
 
-    SocketHandler(Socket connection) throws IOException {
-        super(connection);
-    }
-
-    protected void closeConnection() throws IOException {
-        connection.close();
-    }
-
-    protected Socket createConnection(String host, int port) throws IOException {
-        return SocketFactory.getDefault().createSocket(host, port);
-    }
-
-    protected InputStream getInputStream() throws IOException {
-        return connection.getInputStream();
-    }
-
-    protected OutputStream getOutputStream() throws IOException {
-        return connection.getOutputStream();
+        
+        echo.send("Hallo Echo!");
+        assertEquals("Response mismatch", "Hallo Echo!", sender.getNextMessage());
+        sender.stopAndClose();
+        echo.stopAndClose();
     }
 }
