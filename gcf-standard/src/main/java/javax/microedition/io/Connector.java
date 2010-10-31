@@ -35,14 +35,32 @@ public class Connector {
     public static final int WRITE= 0x02;
     public static final int READ_WRITE= READ | WRITE;
     
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static Connection open(String name) throws IOException {
         return open(name, READ_WRITE);
     }
 
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static Connection open(String name, int mode) throws IOException {
         return open(name, mode, false);
     }
     
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static Connection open(String name, int mode, boolean timeouts) throws IOException {
         if (name == null) {
             throw new IllegalArgumentException("URI must not be null");
@@ -52,32 +70,66 @@ public class Connector {
         return FactoryRegistry.openConnection(uri, mode, timeouts);
     }
     
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static DataInputStream openDataInputStream(String name) throws IOException {
-        InputConnection con = (InputConnection) Connector.open(name, Connector.READ);
-
+        Connection c= Connector.open(name, Connector.READ);
+        
+        if(!(c instanceof InputConnection)) {
+            try {c.close();} catch (Exception e) {}
+            throw new IllegalArgumentException(name + " does not refer to an InputConnection");
+        }
+        
         try {
-            return con.openDataInputStream();
+            return ((InputConnection) c).openDataInputStream();
         } catch(IOException ioe) {
-            con.close();
+            c.close();
             throw ioe;
         }
     }
 
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static DataOutputStream openDataOutputStream(String name) throws IOException {
-        OutputConnection con = (OutputConnection) Connector.open(name, Connector.WRITE);
+        Connection c= Connector.open(name, Connector.WRITE);
 
+        if(!(c instanceof OutputConnection)) {
+            try {c.close();} catch (Exception e) {}
+            throw new IllegalArgumentException(name + " does not refer to an OutputConnection");
+        }
+        
         try {
-            return con.openDataOutputStream();
+            return ((OutputConnection) c).openDataOutputStream();
         } catch(IOException ioe) {
-            con.close();
+            c.close();
             throw ioe;
         }
     }
 
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static InputStream openInputStream(String name) throws IOException {
         return openDataInputStream(name);
     }
 
+    /**
+     * @throws IllegalArgumentException
+     * @throws ConnectionNotFoundException
+     * @throws IOException
+     * @throws SecurityException
+     */
     public static OutputStream openOutputStream(String name) throws IOException {
         return openDataOutputStream(name);
     }
