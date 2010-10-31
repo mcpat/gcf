@@ -25,7 +25,6 @@ import java.security.cert.X509Certificate;
 
 import javax.microedition.io.SecurityInfo;
 import javax.microedition.pki.Certificate;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
@@ -39,29 +38,27 @@ final class SSLSecurityInfoImpl implements SecurityInfo {
         java.security.cert.Certificate[] certs= session.getPeerCertificates();
         CertificateImpl ci= null;
         if(certs != null && certs.length > 0 && certs[0] instanceof X509Certificate) {
+            // TODO: is this the right way?
             ci= new CertificateImpl((X509Certificate) certs[0]);
         }
+        
+        // parse protocol name and version
+        final String protocol= session.getProtocol();
+        String protocolName= null;
+        String protocolVersion= null;
+        if(protocol.startsWith("TLS")) {
+            protocolName= "TLS";
+            protocolVersion= "3.1";
+        } else if(protocol.startsWith("SSL")) {
+            protocolName= "SSL";
+            protocolVersion= "3.0";
+        }
+        
         
         return new SSLSecurityInfoImpl(
             session.getCipherSuite(),
-            session.getProtocol(),
-            null,
-            ci
-        );
-    }
-    
-    static SSLSecurityInfoImpl create(HttpsURLConnection connection) throws IOException {
-        java.security.cert.Certificate[] certs= connection.getServerCertificates();
-        
-        CertificateImpl ci= null;
-        if(certs != null && certs.length > 0 && certs[0] instanceof X509Certificate) {
-            ci= new CertificateImpl((X509Certificate) certs[0]);
-        }
-        
-        return new SSLSecurityInfoImpl(
-            connection.getCipherSuite(),
-            null,
-            null,
+            protocolName,
+            protocolVersion,
             ci
         );
     }

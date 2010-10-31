@@ -48,12 +48,12 @@ class SocketConnectionImpl extends AbstractConnection implements SocketConnectio
     
     public final String getAddress() throws IOException {
         ensureOpen();
-        return socket.getInetAddress().toString();
+        return socket.getInetAddress().getHostAddress();
     }
 
     public final String getLocalAddress() throws IOException {
         ensureOpen();
-        return socket.getLocalAddress().toString();
+        return socket.getLocalAddress().getHostAddress();
     }
 
     public final int getLocalPort() throws IOException {

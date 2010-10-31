@@ -52,13 +52,7 @@ public class ConnectionFactory implements IConnectionFactory {
         return protocols;
     }
 
-    public Connection openPrim(String protocol, String name, int mode, boolean timeouts) throws IOException {
-        if (name.charAt(0) != '/' || name.charAt(1) != '/') {
-            throw new IllegalArgumentException("Protocol must end with \"//\"");
-        }
-        
-        PrimitiveURI uri= new PrimitiveURI(protocol + ":" + name);
-        
+    public Connection openPrim(String protocol, PrimitiveURI uri, int mode, boolean timeouts) throws IOException {
         // create HTTP connection
         if(protocol.equals("http")) {
             return new HttpConnectionImpl((HttpURLConnection) uri.toURL().openConnection());
@@ -80,7 +74,7 @@ public class ConnectionFactory implements IConnectionFactory {
         }
 
         if(uri.port < 0) {
-            throw new IOException("Invalid port " + uri);
+            throw new IOException("Invalid port " + uri.rawString);
         }
         
         // create DATAGRAM connection

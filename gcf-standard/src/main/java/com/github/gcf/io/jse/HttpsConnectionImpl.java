@@ -21,25 +21,84 @@
 package com.github.gcf.io.jse;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.microedition.io.HttpsConnection;
 import javax.microedition.io.SecurityInfo;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 
 /**
  * @author Marcel Patzlaff
  */
 final class HttpsConnectionImpl extends HttpConnectionImpl implements HttpsConnection {
+    private final class InterceptingSSLSocketFactory extends SSLSocketFactory {
+        private final SSLSocketFactory _factory;
+        
+        protected InterceptingSSLSocketFactory(SSLSocketFactory factory) {
+            _factory= factory;
+        }
+        
+        public Socket createSocket() throws IOException {
+            underlyingSocket= (SSLSocket) _factory.createSocket();
+            return underlyingSocket;
+        }
+
+        public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
+            underlyingSocket= (SSLSocket) _factory.createSocket(address, port, localAddress, localPort);
+            return underlyingSocket;
+        }
+
+        public Socket createSocket(InetAddress host, int port) throws IOException {
+            underlyingSocket= (SSLSocket) _factory.createSocket(host, port);
+            return underlyingSocket;
+        }
+
+        public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
+            underlyingSocket= (SSLSocket) _factory.createSocket(s, host, port, autoClose);
+            return underlyingSocket;
+        }
+
+        public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException, UnknownHostException {
+            underlyingSocket= (SSLSocket) _factory.createSocket(host, port, localHost, localPort);
+            return underlyingSocket;
+        }
+
+        public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
+            underlyingSocket= (SSLSocket) _factory.createSocket(host, port);
+            return underlyingSocket;
+        }
+
+        public String[] getDefaultCipherSuites() {
+            return _factory.getDefaultCipherSuites();
+        }
+
+        public String[] getSupportedCipherSuites() {
+            return _factory.getSupportedCipherSuites();
+        }
+    }
+    
+    protected SSLSocket underlyingSocket;
     private SecurityInfo _securityInfo;
     
     public HttpsConnectionImpl(HttpsURLConnection connection) {
         super(connection);
+        
+        connection.setSSLSocketFactory(new InterceptingSSLSocketFactory(connection.getSSLSocketFactory()));
     }
     
     public SecurityInfo getSecurityInfo() throws IOException {
+        ensureOpen();
+        if(underlyingSocket == null) {
+            connection.connect();
+        }
+        
         if(_securityInfo == null) {
-            _securityInfo= SSLSecurityInfoImpl.create((HttpsURLConnection) connection);
+            _securityInfo= SSLSecurityInfoImpl.create(underlyingSocket);
         }
         
         return _securityInfo;

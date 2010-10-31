@@ -38,7 +38,7 @@ public class URITest extends TestCase {
                 {"http://marcel:pw@stilgar/index.html#foo", "http", "marcel:pw", "stilgar", Integer.valueOf(-1), "/index.html", null, "foo"},
                 {"http://user:password@www.example.org:8080/serverside/index.html?arg=value&answer=42#anchor",
                  "http", "user:password", "www.example.org", Integer.valueOf(8080), "/serverside/index.html", "arg=value&answer=42", "anchor"},
-                {"file:/C:\\\\Programme", "file", null, null, Integer.valueOf(-1), "/C:\\\\Programme", null, null},
+                {"file:/C:/Programme", "file", null, null, Integer.valueOf(-1), "/C:/Programme", null, null},
             };
     }
     

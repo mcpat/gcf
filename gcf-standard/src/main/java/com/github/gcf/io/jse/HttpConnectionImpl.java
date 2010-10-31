@@ -156,7 +156,7 @@ class HttpConnectionImpl extends AbstractConnection implements HttpConnection {
 
     public InputStream openInputStream() throws IOException {
         ensureOpen();
-        return connection.getInputStream();
+        return new RegisteredInputStream(connection.getInputStream());
     }
 
     protected void closeMainResource() throws IOException {
@@ -170,6 +170,6 @@ class HttpConnectionImpl extends AbstractConnection implements HttpConnection {
 
     public OutputStream openOutputStream() throws IOException {
         ensureOpen();
-        return connection.getOutputStream();
+        return new RegisteredOutputStream(connection.getOutputStream());
     }
 }

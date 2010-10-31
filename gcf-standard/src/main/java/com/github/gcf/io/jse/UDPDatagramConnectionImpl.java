@@ -37,7 +37,7 @@ final class UDPDatagramConnectionImpl extends DatagramConnectionImpl implements 
 
     public String getLocalAddress() throws IOException {
         ensureOpen();
-        return socket.getLocalAddress().toString();
+        return socket.getLocalAddress().getHostAddress();
     }
 
     public int getLocalPort() throws IOException {

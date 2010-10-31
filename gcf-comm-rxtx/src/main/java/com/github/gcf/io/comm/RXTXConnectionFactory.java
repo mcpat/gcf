@@ -32,6 +32,7 @@ import java.util.Vector;
 import javax.microedition.io.Connection;
 
 import com.github.gcf.io.IConnectionFactory;
+import com.github.gcf.io.PrimitiveURI;
 
 
 /**
@@ -49,8 +50,12 @@ public class RXTXConnectionFactory implements IConnectionFactory {
         return protocols;
     }
 
-    public Connection openPrim(String protocol, String name, int mode, boolean timeouts) throws IOException {
-        StringBuffer args= new StringBuffer(name);
+    public Connection openPrim(String protocol, PrimitiveURI uri, int mode, boolean timeouts) throws IOException {
+        if(uri.path == null) {
+            throw new IllegalArgumentException("port has to be specified");
+        }
+        
+        StringBuffer args= new StringBuffer(uri.path);
         String sc= ";";
         // first part is the port name
         int scIndex= args.indexOf(sc);
@@ -79,7 +84,7 @@ public class RXTXConnectionFactory implements IConnectionFactory {
             int eqIndex= args.indexOf(eq);
             
             if(eqIndex <= 0) {
-                throw new IOException("Invalid option list comm:" + name);
+                throw new IOException("Invalid option list comm:" + uri);
             }
             
             String argName= args.substring(0, eqIndex);

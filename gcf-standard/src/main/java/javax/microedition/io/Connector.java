@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.github.gcf.io.FactoryRegistry;
+import com.github.gcf.io.PrimitiveURI;
 
 
 public class Connector {
@@ -44,19 +45,11 @@ public class Connector {
     
     public static Connection open(String name, int mode, boolean timeouts) throws IOException {
         if (name == null) {
-            throw new IllegalArgumentException("URL must not be null");
+            throw new IllegalArgumentException("URI must not be null");
         }
 
-        int colon = name.indexOf(':');
-
-        if (colon < 1) {
-            throw new IllegalArgumentException("invalid URL format: " + name);
-        }
-
-        String protocol = name.substring(0, colon);
-        name = name.substring(colon + 1);
-        protocol = protocol.replace('-', '_');
-        return FactoryRegistry.openConnection(protocol, name, mode, timeouts);
+        PrimitiveURI uri= new PrimitiveURI(name);
+        return FactoryRegistry.openConnection(uri, mode, timeouts);
     }
     
     public static DataInputStream openDataInputStream(String name) throws IOException {

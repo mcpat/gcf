@@ -26,6 +26,7 @@ import java.util.Vector;
 import javax.microedition.io.Connection;
 
 import com.github.gcf.io.IConnectionFactory;
+import com.github.gcf.io.PrimitiveURI;
 import com.intel.bluetooth.MicroeditionConnector;
 
 
@@ -46,7 +47,7 @@ public class BluecoveConnectionFactory implements IConnectionFactory {
         return protocols;
     }
 
-    public Connection openPrim(String protocol, String name, int mode, boolean timeouts) throws IOException {
-        return MicroeditionConnector.open(protocol + ":" + name, mode, timeouts);
+    public Connection openPrim(String protocol, PrimitiveURI uri, int mode, boolean timeouts) throws IOException {
+        return MicroeditionConnector.open(uri.rawString, mode, timeouts);
     }
 }

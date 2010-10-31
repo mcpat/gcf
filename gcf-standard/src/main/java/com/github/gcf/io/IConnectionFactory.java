@@ -32,5 +32,5 @@ public interface IConnectionFactory {
     boolean conflictsWith(String protocol, IConnectionFactory factory);
     
     Vector getSupportedProtocols();
-    Connection openPrim(String protocol, String name, int mode, boolean timeouts) throws IOException;
+    Connection openPrim(String protocol, PrimitiveURI uri, int mode, boolean timeouts) throws IOException;
 }

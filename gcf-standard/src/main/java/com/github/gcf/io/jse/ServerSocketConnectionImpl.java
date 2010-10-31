@@ -45,7 +45,7 @@ class ServerSocketConnectionImpl extends AbstractConnection implements ServerSoc
     
     public final String getLocalAddress() throws IOException {
         ensureOpen();
-        return serverSocket.getInetAddress().toString();
+        return serverSocket.getInetAddress().getHostAddress();
     }
 
     public final int getLocalPort() throws IOException {

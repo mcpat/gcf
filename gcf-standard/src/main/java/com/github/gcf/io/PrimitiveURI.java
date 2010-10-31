@@ -45,7 +45,7 @@ public class PrimitiveURI {
         int colon= uri.indexOf(':');
         
         if(colon < 0 || (at > 0 && colon > at) || (slash > 0 && colon > slash)) {
-            throw new IllegalArgumentException("Expected scheme");
+            throw new IllegalArgumentException("Invalid URI syntax: " + uri);
         }
         
         scheme= uri.substring(pos, colon);
