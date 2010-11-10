@@ -50,7 +50,8 @@ public class RXTXConnectionFactory implements IConnectionFactory {
         return protocols;
     }
 
-    public Connection openPrim(String protocol, PrimitiveURI uri, int mode, boolean timeouts) throws IOException {
+    public Connection openPrim(String protocol, String uriStr, int mode, boolean timeouts) throws IOException {
+        PrimitiveURI uri= new PrimitiveURI(uriStr);
         if(uri.path == null) {
             throw new IllegalArgumentException("port has to be specified");
         }
@@ -84,7 +85,7 @@ public class RXTXConnectionFactory implements IConnectionFactory {
             int eqIndex= args.indexOf(eq);
             
             if(eqIndex <= 0) {
-                throw new IOException("Invalid option list comm:" + uri);
+                throw new IOException("Invalid option list comm:" + uriStr);
             }
             
             String argName= args.substring(0, eqIndex);

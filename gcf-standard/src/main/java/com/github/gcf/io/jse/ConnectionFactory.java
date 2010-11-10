@@ -52,7 +52,9 @@ public class ConnectionFactory implements IConnectionFactory {
         return protocols;
     }
 
-    public Connection openPrim(String protocol, PrimitiveURI uri, int mode, boolean timeouts) throws IOException {
+    public Connection openPrim(String protocol, String uriStr, int mode, boolean timeouts) throws IOException {
+        PrimitiveURI uri= new PrimitiveURI(uriStr);
+        
         // create HTTP connection
         if(protocol.equals("http")) {
             return new HttpConnectionImpl((HttpURLConnection) uri.toURL().openConnection());

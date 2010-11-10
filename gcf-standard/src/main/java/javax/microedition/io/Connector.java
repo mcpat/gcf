@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.github.gcf.io.FactoryRegistry;
-import com.github.gcf.io.PrimitiveURI;
 
 
 public class Connector {
@@ -66,8 +65,14 @@ public class Connector {
             throw new IllegalArgumentException("URI must not be null");
         }
 
-        PrimitiveURI uri= new PrimitiveURI(name);
-        return FactoryRegistry.openConnection(uri, mode, timeouts);
+        int colon= name.indexOf(':');
+        
+        if(colon < 0) {
+            throw new IllegalArgumentException("invalid uri scheme");
+        }
+        
+        String scheme= name.substring(0, colon);
+        return FactoryRegistry.openConnection(scheme, name, mode, timeouts);
     }
     
     /**

@@ -60,15 +60,13 @@ public class FactoryRegistry {
         }
     }
     
-    public static Connection openConnection(PrimitiveURI uri, int mode, boolean timeouts) throws IOException {
-        String protocol= uri.scheme;
-        
+    public static Connection openConnection(String protocol, String uriStr, int mode, boolean timeouts) throws IOException {
         IConnectionFactory factory= (IConnectionFactory) FACTORIES.get(protocol);
         
         if(factory == null) {
-            throw new ConnectionNotFoundException(uri.rawString);
+            throw new ConnectionNotFoundException(uriStr);
         }
         
-        return factory.openPrim(protocol, uri, mode, timeouts);
+        return factory.openPrim(protocol, uriStr, mode, timeouts);
     }
 }

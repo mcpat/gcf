@@ -30,6 +30,19 @@
 		</developer>
 	</developers>
 	
+	<scm>
+		<url>git://github.com/mcpat/gcf.git</url>
+		<connection>scm:git:git://github.com/mcpat/gcf.git</connection>
+	</scm>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>${gcf-snapshot-repo-id}</id>
+			<name>${gcf-snapshot-repo-id}</name>
+			<url>${gcf-snapshot-repo-url}</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<properties>
 		<gcf-version>0.5-SNAPSHOT</gcf-version>
 		<gcf-license-dir>${basedir}/target/gcf-license</gcf-license-dir>
