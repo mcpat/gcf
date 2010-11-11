@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.mcpat.gcf</groupId>
 	<artifactId>gcf-parent</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<packaging>pom</packaging>
 	<name>Generic Connection Framework</name>
 	
@@ -44,7 +44,7 @@
 	</distributionManagement>
 	
 	<properties>
-		<gcf-version>0.5-SNAPSHOT</gcf-version>
+		<gcf-version>0.5</gcf-version>
 		<gcf-license-dir>${basedir}/target/gcf-license</gcf-license-dir>
 		<junit-version>3.8.1</junit-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
