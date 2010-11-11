@@ -33,6 +33,7 @@
 	<scm>
 		<url>git://github.com/mcpat/gcf.git</url>
 		<connection>scm:git:git://github.com/mcpat/gcf.git</connection>
+		<developerConnection>scm:git:git://github.com/mcpat/gcf.git</developerConnection>
 	</scm>
 	
 	<distributionManagement>
