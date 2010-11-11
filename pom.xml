@@ -9,6 +9,7 @@
 	<prerequisites>
 		<maven>2.0</maven>
 	</prerequisites>
+
 	<inceptionYear>2007</inceptionYear>
 	<description>Generic Connection Framework for Java SE</description>
 	<url>http://mcpat.github.com/gcf</url>
