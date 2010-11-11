@@ -38,6 +38,11 @@
 	</scm>
 	
 	<distributionManagement>
+		<repository>
+			<id>${gcf-release-repo-id}</id>
+			<name>${gcf-release-repo-id}</name>
+			<url>${gcf-release-repo-url}</url>
+		</repository>
 		<snapshotRepository>
 			<id>${gcf-snapshot-repo-id}</id>
 			<name>${gcf-snapshot-repo-id}</name>
