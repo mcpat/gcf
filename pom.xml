@@ -39,14 +39,14 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>${gcf-release-repo-id}</id>
-			<name>${gcf-release-repo-id}</name>
-			<url>${gcf-release-repo-url}</url>
+			<id>${release-repo-id}</id>
+			<name>${release-repo-id}</name>
+			<url>${release-repo-url}</url>
 		</repository>
 		<snapshotRepository>
-			<id>${gcf-snapshot-repo-id}</id>
-			<name>${gcf-snapshot-repo-id}</name>
-			<url>${gcf-snapshot-repo-url}</url>
+			<id>${snapshot-repo-id}</id>
+			<name>${snapshot-repo-id}</name>
+			<url>${snapshot-repo-url}</url>
 		</snapshotRepository>
 	</distributionManagement>
 	
@@ -81,6 +81,16 @@
 	</dependencyManagement>
 	
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.3.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	
 		<resources>
 			<resource>
 				<directory>${basedir}/src/main/resources</directory>
