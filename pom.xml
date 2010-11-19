@@ -5,14 +5,26 @@
 	<version>0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Generic Connection Framework</name>
-	
-	<prerequisites>
-		<maven>2.0</maven>
-	</prerequisites>
 
 	<inceptionYear>2007</inceptionYear>
-	<description>Generic Connection Framework for Java SE</description>
+	<description>Generic Connection Framework for the Java Standard Edition</description>
 	<url>http://mcpat.github.com/gcf</url>
+	
+	<prerequisites>
+		<maven>2.2</maven>
+	</prerequisites>
+	
+	<developers>
+		<developer>
+			<id>marcel</id>
+			<name>Marcel Patzlaff</name>
+			<email>marcel.patzlaff@gmail.com</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
 	
 	<licenses>
 		<license>
@@ -21,15 +33,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
-	<developers>
-		<developer>
-			<id>marcel</id>
-			<name>Marcel Patzlaff</name>
-			<email>marcel.patzlaff@gmail.com</email>
-			<timezone>+1</timezone>
-		</developer>
-	</developers>
 	
 	<scm>
 		<url>git://github.com/mcpat/gcf.git</url>
@@ -168,6 +171,21 @@
 						<id>attach-javadoc</id>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
