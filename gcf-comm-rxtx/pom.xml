@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.github.mcpat.gcf</groupId>
 		<artifactId>gcf-parent</artifactId>
-		<version>0.6</version>
+		<version>0.7-SNAPSHOT</version>
 	</parent>
 	<artifactId>gcf-comm-rxtx</artifactId>
 	<packaging>jar</packaging>
