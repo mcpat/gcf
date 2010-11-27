@@ -27,6 +27,6 @@ package javax.microedition.io;
  * </pre>
  */
 public interface CommConnection extends StreamConnection {
-    int getBaudrate();
-    int setBaudrate(int baudrate);
+    int getBaudRate();
+    int setBaudRate(int baudrate);
 }

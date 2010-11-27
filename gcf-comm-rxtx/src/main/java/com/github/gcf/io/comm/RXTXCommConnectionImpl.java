@@ -44,11 +44,11 @@ final class RXTXCommConnectionImpl extends AbstractConnection implements CommCon
         _port= port;
     }
     
-    public int getBaudrate() {
+    public int getBaudRate() {
         return _port.getBaudRate();
     }
 
-    public int setBaudrate(int baudrate) {
+    public int setBaudRate(int baudrate) {
         try {
             _port.setSerialPortParams(
                 baudrate,
