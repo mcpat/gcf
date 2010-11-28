@@ -21,10 +21,10 @@
 package com.github.gcf.io;
 
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ServiceLoader;
-import java.util.Vector;
+import java.util.Set;
 
 import javax.microedition.io.Connection;
 import javax.microedition.io.ConnectionNotFoundException;
@@ -32,29 +32,32 @@ import javax.microedition.io.ConnectionNotFoundException;
 /**
  * @author Marcel Patzlaff
  */
-public class FactoryRegistry {
+public final class FactoryRegistry {
     private final static boolean DEBUG= true;
-    private final static Hashtable FACTORIES;
+    private final static HashMap FACTORIES;
     
     static {
-        FACTORIES= new Hashtable();
+        FACTORIES= new HashMap();
         ServiceLoader loader= ServiceLoader.load(IConnectionFactory.class);
         for(Iterator iter= loader.iterator(); iter.hasNext();) {
             IConnectionFactory current= (IConnectionFactory) iter.next();
-            Vector protocols= current.getSupportedProtocols();
-            for(int i= 0; i < protocols.size(); ++i) {
-                String protocol= (String) protocols.elementAt(i);
-                IConnectionFactory oldFac= (IConnectionFactory) FACTORIES.put(protocol, current);
-                if(oldFac != null) {
-                    if(oldFac.conflictsWith(protocol, current)) {
-                        // oldFac overrides current
-                        FACTORIES.put(protocol, oldFac);
-                    } else if(!current.conflictsWith(protocol, oldFac)) {
-                        System.err.println("[FactoryRegistry] WARN: multiple factories for " + protocol);
+            Set protocols= current.getSupportedProtocols();
+            
+            if(protocols != null) {
+                for(Iterator protoIter= protocols.iterator(); protoIter.hasNext();) {
+                    String protocol= (String) protoIter.next();
+                    IConnectionFactory oldFac= (IConnectionFactory) FACTORIES.put(protocol, current);
+                    if(oldFac != null) {
+                        if(oldFac.conflictsWith(protocol, current)) {
+                            // oldFac overrides current
+                            FACTORIES.put(protocol, oldFac);
+                        } else if(!current.conflictsWith(protocol, oldFac)) {
+                            System.err.println("[FactoryRegistry] WARN: multiple factories for " + protocol);
+                        }
                     }
-                }
-                if(DEBUG) {
-                    System.out.println("[FactoryRegistry] INFO: " + current.getClass().getName() + " provides " + protocol);
+                    if(DEBUG) {
+                        System.out.println("[FactoryRegistry] INFO: " + current.getClass().getName() + " provides " + protocol);
+                    }
                 }
             }
         }
@@ -69,4 +72,6 @@ public class FactoryRegistry {
         
         return factory.openPrim(protocol, uriStr, mode, timeouts);
     }
+    
+    private FactoryRegistry() {}
 }

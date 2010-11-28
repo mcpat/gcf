@@ -59,4 +59,6 @@ public class FileSystemRegistry {
         
         return IMPL.removeFileSystemListener(listener);
     }
+    
+    private FileSystemRegistry() {}
 }

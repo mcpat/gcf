@@ -21,7 +21,8 @@
 package com.github.gcf.io.bluecove;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.microedition.io.Connection;
 
@@ -32,13 +33,13 @@ import com.intel.bluetooth.MicroeditionConnector;
 /**
  * @author Marcel Patzlaff
  */
-public class BluecoveConnectionFactory implements IConnectionFactory {
+public final class BluecoveConnectionFactory implements IConnectionFactory {
     public boolean conflictsWith(String protocol, IConnectionFactory factory) {
         return false;
     }
 
-    public Vector getSupportedProtocols() {
-        Vector protocols= new Vector();
+    public Set getSupportedProtocols() {
+        HashSet protocols= new HashSet();
         protocols.add("btgoep");
         protocols.add("btl2cap");
         protocols.add("btspp");

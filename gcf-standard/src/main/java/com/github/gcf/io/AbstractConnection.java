@@ -23,7 +23,7 @@ package com.github.gcf.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.microedition.io.Connection;
 
@@ -114,7 +114,7 @@ public abstract class AbstractConnection implements Connection {
     }
     
     protected boolean closed= false;
-    private final Vector _registeredResources= new Vector();
+    private final ArrayList _registeredResources= new ArrayList();
     
     public final void close() throws IOException {
         if(closed) {
@@ -135,11 +135,11 @@ public abstract class AbstractConnection implements Connection {
     }
     
     protected final void resourceAcquired(Object resource) {
-        _registeredResources.addElement(resource);
+        _registeredResources.add(resource);
     }
     
     protected final void resourceReleased(Object resource) throws IOException {
-        _registeredResources.removeElement(resource);
+        _registeredResources.remove(resource);
         
         if(closed && _registeredResources.size() <= 0) {
             closeMainResource();

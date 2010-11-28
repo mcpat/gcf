@@ -27,7 +27,8 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.microedition.io.Connection;
 
@@ -39,13 +40,13 @@ import com.github.gcf.io.PrimitiveURI;
  * @author Marcel Patzlaff
  * @version $Revision: 26791 $
  */
-public class RXTXConnectionFactory implements IConnectionFactory {
+public final class RXTXConnectionFactory implements IConnectionFactory {
     public boolean conflictsWith(String protocol, IConnectionFactory factory) {
         return false;
     }
 
-    public Vector getSupportedProtocols() {
-        Vector protocols= new Vector();
+    public Set getSupportedProtocols() {
+        HashSet protocols= new HashSet();
         protocols.add("comm");
         return protocols;
     }

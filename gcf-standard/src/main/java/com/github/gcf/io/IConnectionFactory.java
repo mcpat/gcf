@@ -21,7 +21,7 @@
 package com.github.gcf.io;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.util.Set;
 
 import javax.microedition.io.Connection;
 
@@ -31,6 +31,6 @@ import javax.microedition.io.Connection;
 public interface IConnectionFactory {
     boolean conflictsWith(String protocol, IConnectionFactory factory);
     
-    Vector getSupportedProtocols();
+    Set getSupportedProtocols();
     Connection openPrim(String protocol, String uriStr, int mode, boolean timeouts) throws IOException;
 }

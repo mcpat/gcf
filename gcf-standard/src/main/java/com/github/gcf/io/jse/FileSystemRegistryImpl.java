@@ -28,7 +28,7 @@ import java.util.Iterator;
 
 import javax.microedition.io.file.FileSystemListener;
 
-public class FileSystemRegistryImpl {
+public final class FileSystemRegistryImpl {
     private final static long POLLING_INTERVAL= 2000L; 
     
     private final class CheckerTask extends Thread {

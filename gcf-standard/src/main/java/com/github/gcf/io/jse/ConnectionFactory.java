@@ -23,7 +23,8 @@ package com.github.gcf.io.jse;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.microedition.io.Connection;
 import javax.net.ssl.HttpsURLConnection;
@@ -35,20 +36,20 @@ import com.github.gcf.io.PrimitiveURI;
 /**
  * @author Marcel Patzlaff
  */
-public class ConnectionFactory implements IConnectionFactory {
+public final class ConnectionFactory implements IConnectionFactory {
     public boolean conflictsWith(String protocol, IConnectionFactory factory) {
         return false;
     }
 
-    public Vector getSupportedProtocols() {
-        Vector protocols= new Vector();
-        protocols.addElement("file");
-        protocols.addElement("datagram");
-        protocols.addElement("socket");
-        protocols.addElement("serversocket");
-        protocols.addElement("ssl");
-        protocols.addElement("http");
-        protocols.addElement("https");
+    public Set getSupportedProtocols() {
+        HashSet protocols= new HashSet();
+        protocols.add("file");
+        protocols.add("datagram");
+        protocols.add("socket");
+        protocols.add("serversocket");
+        protocols.add("ssl");
+        protocols.add("http");
+        protocols.add("https");
         return protocols;
     }
 
