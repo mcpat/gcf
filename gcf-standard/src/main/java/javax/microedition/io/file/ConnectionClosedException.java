@@ -1,8 +1,8 @@
 /*
- * GCF -- Generic Connection Framework for Java SE
- *        GCF-Standard
+ * GCF - Generic Connection Framework for Java SE
+ *       GCF-Standard
  *
- * Copyright (c) 2007-2010 Marcel Patzlaff (marcel.patzlaff@gmail.com)
+ * Copyright (c) 2007-2011 Marcel Patzlaff (marcel.patzlaff@gmail.com)
  *
  * This library is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published

@@ -1,8 +1,8 @@
 /*
- * GCF -- Generic Connection Framework for Java SE
- *        GCF-Standard
+ * GCF - Generic Connection Framework for Java SE
+ *       GCF-Standard
  *
- * Copyright (c) 2007-2010 Marcel Patzlaff (marcel.patzlaff@gmail.com)
+ * Copyright (c) 2007-2011 Marcel Patzlaff (marcel.patzlaff@gmail.com)
  *
  * This library is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published
@@ -32,6 +32,20 @@ public class SocketConnectionTest extends TestCase {
         int serverPort= server.getPort();
         
         SocketConnectionHandler sender= new SocketConnectionHandler("localhost", serverPort);
+        
+        assertNotNull("local address must not be null", sender.connection.getLocalAddress());
+        assertNotNull("remote address must not be null", sender.connection.getAddress());
+        
+        int localPort= sender.connection.getLocalPort();
+        if(localPort < 1 || localPort > 65535) {
+            fail("invalid local port " + localPort);
+        }
+        
+        int remotePort= sender.connection.getPort();
+        if(remotePort < 1 || remotePort > 65535) {
+            fail("invalid remote port " + remotePort);
+        }
+        
         SocketConnectionHandler echo= server.getNextHandler();
         assertNotNull("Accepting failed", echo);
         

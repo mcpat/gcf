@@ -1,8 +1,8 @@
 /*
- * GCF -- Generic Connection Framework for Java SE
- *        GCF-Standard
+ * GCF - Generic Connection Framework for Java SE
+ *       GCF-Standard
  *
- * Copyright (c) 2007-2010 Marcel Patzlaff (marcel.patzlaff@gmail.com)
+ * Copyright (c) 2007-2011 Marcel Patzlaff (marcel.patzlaff@gmail.com)
  *
  * This library is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published
@@ -36,7 +36,8 @@ public class FileSystemRegistryTest extends TestCase {
         assertTrue("invalid root listing", roots.hasMoreElements());
         
         while(roots.hasMoreElements()) {
-            System.out.println(roots.nextElement());
+            String root= (String) roots.nextElement();
+            assertTrue("invalid root '" + root + "'", root.startsWith("/"));
         }
         
         final FileSystemListener fsl= new FileSystemListener() {
@@ -46,8 +47,27 @@ public class FileSystemRegistryTest extends TestCase {
             }
         };
         
+        try {
+            FileSystemRegistry.addFileSystemListener(null);
+            fail("insufficient argument check");
+        } catch (NullPointerException npe) {
+            // success
+        }
+        
+        try {
+            FileSystemRegistry.removeFileSystemListener(null);
+            fail("insufficient argument check");
+        } catch (NullPointerException npe) {
+            // success
+        }
+        
         assertTrue("cannot attach listener", FileSystemRegistry.addFileSystemListener(fsl));
         assertFalse("attached listener multiple times", FileSystemRegistry.addFileSystemListener(fsl));
+        
+        final FileSystemListener el= new FileSystemListener() {
+            public void rootChanged(int state, String rootName) {}
+        };
+        assertTrue("cannot attach different listener", FileSystemRegistry.addFileSystemListener(el));
         
         Thread.sleep(1000);
         
@@ -62,7 +82,7 @@ public class FileSystemRegistryTest extends TestCase {
         
         assertTrue("cannot detach listener", FileSystemRegistry.removeFileSystemListener(fsl));
         assertFalse("detached listener multiple times", FileSystemRegistry.removeFileSystemListener(fsl));
-        
+        assertTrue("cannot detach different listener", FileSystemRegistry.removeFileSystemListener(el));
         Thread.sleep(1000);
         
         count= 0;

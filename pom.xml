@@ -192,4 +192,46 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>update-license</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<gcf-header>${license-header}</gcf-header>
+			</properties>
+			<build>
+				<defaultGoal>license:format</defaultGoal>
+				<plugins>
+					<plugin>
+						<groupId>com.mycila.maven-license-plugin</groupId>
+						<artifactId>maven-license-plugin</artifactId>
+						<version>1.8.0</version>
+						<configuration>
+							<header>${gcf-header}</header>
+							<quiet>false</quiet>
+							<failIfMissing>true</failIfMissing>
+							<aggregate>false</aggregate>
+							<includes>
+								<include>src/**</include>
+							</includes>
+							<useDefaultExcludes>true</useDefaultExcludes>
+							<useDefaultMapping>true</useDefaultMapping>
+							<mapping>
+								<dot>JAVADOC_STYLE</dot>
+								<pro>SCRIPT_STYLE</pro>
+								<java>SLASHSTAR_STYLE</java>
+							</mapping>
+							<properties>
+								<module-name>${project.name}</module-name>
+							</properties>
+							<encoding>${project.build.sourceEncoding}</encoding>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
